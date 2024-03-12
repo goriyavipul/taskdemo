@@ -9,8 +9,13 @@ const modalStyle = {
     },
 };
 
+interface ModalProps {
+    open: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
+}
 
-const Modal = ({open, onClose, children}) => {
+const Modal: React.FC<ModalProps> = ({open, onClose, children}) => {
     return (
         <BsModal open={open} onClose={onClose} center={true} showCloseIcon={false} styles={modalStyle}>
             {children}

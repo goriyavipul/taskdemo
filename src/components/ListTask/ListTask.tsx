@@ -10,13 +10,14 @@ import { toast } from "react-toastify";
 import Modal from "@components/Common/Modal";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import {Task} from "../../types/taskTypes";
 
 const CreateTask = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const [updateModal, setUpdateModal] = useState(false);
-  const [taskId, setTaskId] = useState("");
+  const [taskId, setTaskId] = useState(0);
 
   const {
     control,
@@ -35,18 +36,17 @@ const CreateTask = () => {
     },
   });
 
-  const tasks =
-    useSelector((state: AppState) => {
-      return state.tasks;
-    }) || [];
+  const tasks = useSelector((state: AppState) => {
+    return state?.tasks || [];
+  }) || [];
 
-  const taskStatusChange = (index, title) => {
+  const taskStatusChange = (index: number, title:string) => {
     dispatch(updateTaskStatus(index));
     toast.success(`${title} mark as completed`, {
       position: "top-right",
     });
   };
-  const handleDeleteTask = (taskId, title) => {
+  const handleDeleteTask = (taskId: number, title: string) => {
     dispatch(deleteTask(taskId));
     toast.success(`${title} deleted successfully`, {
       position: "top-right",
@@ -54,16 +54,16 @@ const CreateTask = () => {
   };
   const updateTask = () => {
     const updatedData = getValues();
-    dispatch(updateTaskData(taskId, updatedData));
+    dispatch(updateTaskData(taskId as number, updatedData));
     reset();
     setUpdateModal(false);
-    setTaskId("");
+    setTaskId(0);
     toast.success(`data updated successfully`, {
       position: "top-right",
     });
   };
 
-  const handleUpdateConformation = (index, updatedData) => {
+  const handleUpdateConformation = (index: number, updatedData: any) => {
     setUpdateModal(true);
     setTaskId(index);
     setValue("title", updatedData?.title);
@@ -73,7 +73,7 @@ const CreateTask = () => {
 
   const handleUpdateClose = () => {
     setUpdateModal(false);
-    setTaskId("");
+    setTaskId(0);
     reset();
   };
 
@@ -208,7 +208,7 @@ const CreateTask = () => {
             </tr>
           </thead>
           <tbody>
-            {tasks?.map((item, index) => {
+            {tasks?.map((item: Task, index: number) => {
               return (
                 <tr
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
@@ -228,7 +228,7 @@ const CreateTask = () => {
                     {!item.isCompleted && (
                       <button
                         className="ml-2 rounded-lg bg-green-500 px-6 py-2 flex"
-                        onClick={() => taskStatusChange(index, item?.title)}
+                        onClick={() => taskStatusChange(index, item?.title as string)}
                       >
                         <span className="text-white text-base">
                           Mark as Completed
@@ -237,13 +237,13 @@ const CreateTask = () => {
                     )}
                     <button
                       className="ml-2 rounded-lg bg-red-500 px-6 py-2 flex"
-                      onClick={() => handleDeleteTask(index, item?.title)}
+                      onClick={() => handleDeleteTask(index, item?.title as string)}
                     >
                       <span className="text-white text-base">Delete</span>
                     </button>
                     <button
                       className="ml-2 rounded-lg bg-sky-500 px-6 py-2 flex"
-                      onClick={() => handleUpdateConformation(index, item)}
+                      onClick={() => handleUpdateConformation(index as number, item)}
                     >
                       <span className="text-white text-base">Update</span>
                     </button>

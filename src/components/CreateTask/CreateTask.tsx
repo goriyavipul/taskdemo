@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { toast } from 'react-toastify';
 import { addTask } from "../../actions/taskActions";
 import {useRouter} from "next/router";
+import {Task} from "../../types/taskTypes";
 
 const CreateTask = () => {
   const router =   useRouter()
@@ -23,7 +24,7 @@ const CreateTask = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: Task ) => {
     dispatch(addTask(data));
     reset()
     toast.success("Task created successfully", {

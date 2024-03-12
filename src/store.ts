@@ -3,7 +3,7 @@ import rootReducer from './reducers/taskReducer';
 import { Task } from './types/taskTypes';
 
 export interface AppState {
-    tasks: Task;
+    tasks: Task | any;
     // Add other state slices here
 }
 

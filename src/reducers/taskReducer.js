@@ -1,36 +1,24 @@
-import {
-  TaskActionTypes,
-  ADD_TASK,
-  TaskState,
-  UPDATE_TASK,
-  DELETE_TASK,
-  UPDATE_TASK_STATUS,
-} from "../types/taskTypes";
-
-const initialState: TaskState = {
+const initialState = {
   tasks: [],
 };
 
-const taskReducer = (
-  state = initialState,
-  action: TaskActionTypes,
-): TaskState => {debugger
+const taskReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_TASK:
+    case 'ADD_TASK':
       return {
         ...state,
         tasks: [...state.tasks, action.payload],
       };
-    case UPDATE_TASK:
+    case 'UPDATE_TASK':
       return {
         ...state,
         tasks: state.tasks.map((task, index) =>
-          index === action.payload.taskId
-            ? { ...task, ...action.payload.updatedTaskData }
-            : task,
+            index === action.payload.taskId
+                ? { ...task, ...action.payload.updatedTaskData }
+                : task
         ),
       };
-    case UPDATE_TASK_STATUS:
+    case 'UPDATE_TASK_STATUS':
       const taskId = action.payload.taskId;
       const updatedTasks = state.tasks.map((task, i) =>
           i === taskId ? { ...task, isCompleted: true } : task
@@ -39,12 +27,11 @@ const taskReducer = (
         ...state,
         tasks: updatedTasks,
       };
-
-    case DELETE_TASK:
+    case 'DELETE_TASK':
       return {
         ...state,
         tasks: state.tasks.filter(
-          (task, index) => index !== action.payload.taskId,
+            (task, index) => index !== action.payload.taskId
         ),
       };
     default:
@@ -52,4 +39,4 @@ const taskReducer = (
   }
 };
 
-export default taskReducer;
+module.exports = taskReducer;

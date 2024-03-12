@@ -4,9 +4,9 @@ export const UPDATE_TASK_STATUS = 'UPDATE_TASK_STATUS';
 export const DELETE_TASK = 'DELETE_TASK';
 
 export interface Task {
-    taskId: number;
-    index: Boolean;
-    updatedTaskData: any;
+    taskId?: number;
+    index?: boolean;
+    updatedTaskData?: any;
     title: string;
     description: string;
     dueDate: string;
@@ -14,8 +14,8 @@ export interface Task {
 }
 
 export interface AddTaskAction {
-    type: typeof ADD_TASK;
-    payload: Task;
+    type?: typeof ADD_TASK;
+    payload: Task | any;
 }
 
 export interface TaskState {
